@@ -42,11 +42,11 @@ public class BattService extends Service {
 
     @Override
     public void onDestroy() {
+        unregisterReceiver(myBatteryReceiver);
         super.onDestroy();
         Log.i("EXIT", "ondestroy!");
         Intent broadcastIntent = new Intent("com.danny.batt_query.RestartBatt");
         sendBroadcast(broadcastIntent);
-        unregisterReceiver(myBatteryReceiver);
         stoptimertask();
     }
 
