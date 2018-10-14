@@ -23,6 +23,7 @@ public class BattService extends Service {
     public int counter=0;
     public static String BATT_LEVEL = "";
     public static InetAddress address;
+    public static boolean restart_flag = true;
 
 
     public BattService(Context applicationContext) {
@@ -45,8 +46,10 @@ public class BattService extends Service {
         unregisterReceiver(myBatteryReceiver);
         super.onDestroy();
         Log.i("EXIT", "ondestroy!");
-        Intent broadcastIntent = new Intent("com.danny.batt_query.RestartBatt");
-        sendBroadcast(broadcastIntent);
+        if(restart_flag) {
+            Intent broadcastIntent = new Intent(getApplicationContext(), BattRestarterBroadcastReceiver.class);
+            sendBroadcast(broadcastIntent);
+        }
         stoptimertask();
     }
 
@@ -86,6 +89,10 @@ public class BattService extends Service {
             timer.cancel();
             timer = null;
         }
+    }
+
+    public void set_restart_flag(boolean flag) {
+        restart_flag = flag;
     }
 
     public BroadcastReceiver myBatteryReceiver = new BroadcastReceiver(){

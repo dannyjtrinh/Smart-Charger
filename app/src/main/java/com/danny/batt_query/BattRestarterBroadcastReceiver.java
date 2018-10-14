@@ -11,7 +11,7 @@ public class BattRestarterBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(BattRestarterBroadcastReceiver.class.getSimpleName(), "Service Stopped and restarted");
 
-        context.startService(new Intent(context, com.danny.batt_query.BattService.class));;
+        context.startService(new Intent(context, BattService.class));;
     }
 
 }

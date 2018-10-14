@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public Context getContext(){
         return mContext;
     }
+    public CheckBox checkBox;
 
 
     @Override
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mContext= this;
         BattService = new com.danny.batt_query.BattService(getContext());
         BattServiceIntent = new Intent(getContext(), BattService.getClass());
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
+        updateStatus();
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -51,16 +55,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void updateStatus(){
+        checkBox.setChecked(isMyServiceRunning(BattService.getClass()));
+    }
     public void activateService(View view) {
+        BattService.set_restart_flag(true);
         if (!isMyServiceRunning(BattService.getClass())) {
             startService(BattServiceIntent);
         }
+        updateStatus();
     }
 
     public void deactivateService(View view) {
+        BattService.set_restart_flag(false);
         if (isMyServiceRunning(BattService.getClass())) {
             stopService(BattServiceIntent);
         }
+        updateStatus();
     }
 
 

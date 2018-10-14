@@ -20,4 +20,5 @@ public class DisplayMessageAct extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
     }
+
 }

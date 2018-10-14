@@ -24,12 +24,12 @@
                 android:value=".MainActivity" />
         </activity>
         <service
-            android:name="com.danny.batt_query.BattService"
+            android:name=".BattService"
             android:enabled="true" >
         </service>
 
         <receiver
-            android:name="com.danny.batt_query.BattRestarterBroadcastReceiver"
+            android:name=".BattRestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped">
