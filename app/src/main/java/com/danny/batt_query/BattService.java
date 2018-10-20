@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -24,6 +25,7 @@ public class BattService extends Service {
     public static String BATT_LEVEL = "";
     public static InetAddress address;
     public static boolean restart_flag = true;
+    public static PowerManager mgr;
 
 
     public BattService(Context applicationContext) {
@@ -63,6 +65,8 @@ public class BattService extends Service {
         //Register battery receiver
         registerReceiver(this.myBatteryReceiver,
                 new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+        mgr = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
 
         //initialize the TimerTask's job
         initializeTimerTask();
@@ -109,6 +113,8 @@ public class BattService extends Service {
         protected String doInBackground(String... params) {
             try {
                 //Send battery level to multicast address and port specified
+                PowerManager.WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "com.danny.batt_query:wakelock");
+                wakeLock.acquire();
                 address = InetAddress.getByName("224.0.0.1");
                 DatagramSocket socket = new DatagramSocket();
                 socket.setBroadcast(true);
