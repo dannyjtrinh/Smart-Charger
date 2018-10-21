@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Battery Query</string>
+    <string name="edit_message">Request Battery Percentage</string>
+    <string name="button_press_activate">Activate Service</string>
+    <string name="button_press_deactivate">Deactivate Service</string>
+</resources>
