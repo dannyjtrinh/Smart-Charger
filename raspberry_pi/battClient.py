@@ -2,9 +2,9 @@ import socket
 import RPi.GPIO as GPIO
 import signal
 import sys
+import datetime
 
 UDP_IP = "224.0.0.1"
-HOST_IP = "192.168.1.94"
 UDP_PORT = 10001
 SWITCH_PIN = 7 
 
@@ -30,6 +30,7 @@ class battClient():
 
     def setup_socket(self):
         #Setup UDP socket
+        HOST_IP = socket.gethostbyname(socket.gethostname())
         self.sock = socket.socket(socket.AF_INET, # Internet
                                   socket.SOCK_DGRAM,
                                   socket.IPPROTO_UDP) # UDP
@@ -59,6 +60,13 @@ class battClient():
                     self.power_flag = 0
                     self.stat = "Charging %s\n" % (data)
                 else:
+                    t = datetime.datetime.now().time()
+                    t = str(t).split(":")
+                    h = int(t[0])
+                    if(h <7):
+                        GPIO.output(SWITCH_PIN, GPIO.HIGH)
+                    else:
+                        GPIO.output(SWITCH_PIN, GPIO.LOW)
                     self.stat = "Not Charging %s\n" % (data)
                 self.i +=1
                 print("received message#%d: %s" % (self.i,self.stat))
