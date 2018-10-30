@@ -1,4 +1,4 @@
-Smart Battery Service
+Smart Charger Service
 by Danny Trinh
 
 The Android application creates a service sending the battery percentage to a UDP client every 2 seconds.
